@@ -1,0 +1,45 @@
+version: "1"
+
+package:
+  id: io.github.openshack
+  name: openshack
+  version: 0.1.0.0
+  kind: app
+  description: |
+    amateur radio logbook
+
+command:
+  - /opt/apps/io.github.openshack/files/bin/openshack
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/7h0ma5/OpenShack.git
+    version: master
+    commit: a108721f4d0b8e43adb46b5d6a4ed5cdc7b81e24
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/h/hamlib/libhamlib-dev_3.3-5_amd64.deb
+    digest: b3f9a68cde8d62ed8892118b67355d71978e2941a7dd03480ba2fa15c7d976b3
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/h/hamlib/libhamlib2_3.3-5_amd64.deb
+    digest: fee8f7565e9ea5516f75fa8abed7fc51aec50261fad094ca198d08a4084825d5
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libu/libusb-1.0/libusb-1.0-0_1.0.22-2_amd64.deb
+    digest: 37be9e682f0fd7533b7bb9d91af802a5070ad68eb9434036af5bc2815efb2615
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/s/systemd/libudev1_241-7~deb10u10_amd64.deb
+    digest: 6c3940c2f65bff61f416b32fee24ceaafb241876307ab80e409dae7514f55141
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libu/libusb-1.0/libusb-1.0-0-dev_1.0.22-2_amd64.deb
+    digest: 0c5bc545ab92ae00274f3b33fdadfa895024877884abaaa86380846669252429
+
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+
+  cd /project/linglong/sources/OpenShack.git
+  git apply ../../../0001-install.patch
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install

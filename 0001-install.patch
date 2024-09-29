@@ -1,0 +1,29 @@
+From ab27cd1641a60cd17cb43f3ce9f926fa83cc9e3d Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Mon, 16 Sep 2024 12:06:44 +0800
+Subject: [PATCH] install
+
+---
+ OpenShack.pro | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/OpenShack.pro b/OpenShack.pro
+index 800635a..6b0cf62 100644
+--- a/OpenShack.pro
++++ b/OpenShack.pro
+@@ -16,11 +16,8 @@ DEFINES += VERSION=\\\"$$VERSION\\\"
+ 
+ macx:ICON = res/openshack.icns
+ win32:RC_FILE += res/openshack.rc
+-
++INCLUDEPATH += $$PREFIX/include
+ unix {
+-  isEmpty(PREFIX) {
+-    PREFIX = /usr/local
+-  }
+ 
+   target.path = $$PREFIX/bin
+ 
+-- 
+2.43.4
+
